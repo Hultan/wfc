@@ -22,16 +22,15 @@ type gridCell struct {
 	isCollapsed bool
 }
 
-type position struct {
-	x, y int
-}
-
 type wfc struct {
 	da *gtk.DrawingArea
 }
 
-var grid [Height][Width]gridCell
-var random *rand.Rand
+var (
+	grid   [Height][Width]gridCell
+	random *rand.Rand
+	tiles  map[string]*cairo.Surface
+)
 
 func newWFC(da *gtk.DrawingArea) *wfc {
 	random = rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -47,6 +46,25 @@ func (w *wfc) setup() error {
 	}
 
 	w.regenerate()
+
+	return nil
+}
+
+func (w *wfc) loadTiles(path string) error {
+	config, err := LoadConfig(path)
+	if err != nil {
+		return err
+	}
+
+	surface, err := cairo.NewSurfaceFromPNG(config.Path)
+	if err != nil {
+		return err
+	}
+
+	tiles = make(map[string]*cairo.Surface)
+	for _, tile := range config.Tiles {
+		tiles[tile.Key] = surface.CreateForRectangle(tile.Left, tile.Top, tile.Width, tile.Height)
+	}
 
 	return nil
 }
@@ -68,25 +86,6 @@ func (w *wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 func (w *wfc) drawTile(ctx *cairo.Context, surface *cairo.Surface, x, y float64) {
 	ctx.SetSourceSurface(surface, x, y)
 	ctx.Paint()
-}
-
-func (w *wfc) pickRandomEmptySquare() (int, int) {
-	var toPick []position
-
-	for y := 0; y < Height; y++ {
-		for x := 0; x < Width; x++ {
-			if !grid[y][x].isCollapsed {
-				toPick = append(toPick, position{x, y})
-			}
-		}
-	}
-
-	if len(toPick) == 0 {
-		return -1, -1
-	}
-
-	t := random.Intn(len(toPick))
-	return toPick[t].x, toPick[t].y
 }
 
 func (w *wfc) generateWorld() {

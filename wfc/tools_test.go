@@ -15,6 +15,11 @@ func Test_replacePartOfString(t *testing.T) {
 		args args
 		want string
 	}{
+		// Error
+		{"Err 1", args{"    ", "X", -1}, "    "},
+		{"Err 2", args{"    ", "X", 5}, "    "},
+
+		// No error
 		{"X   ", args{"    ", "X", 0}, "X   "},
 		{" X  ", args{"    ", "X", 1}, " X  "},
 		{"  X ", args{"    ", "X", 2}, "  X "},

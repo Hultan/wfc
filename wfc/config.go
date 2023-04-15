@@ -41,30 +41,3 @@ func LoadConfig(path string) (*Config, error) {
 
 	return config, nil
 }
-
-// Save : Saves the configuration file
-func (tileMap *Config) Save() error {
-	// Open config file
-	configFile, err := os.OpenFile(configPath, os.O_TRUNC|os.O_WRONLY, 0644)
-
-	// Handle errors
-	if err != nil {
-		return err
-	}
-
-	// Create JSON from config object
-	data, err := json.MarshalIndent(tileMap, "", "\t")
-	if err != nil {
-		return err
-	}
-
-	// Write the data
-	_, err = configFile.Write(data)
-	if err != nil {
-		return err
-	}
-
-	_ = configFile.Close()
-
-	return nil
-}
