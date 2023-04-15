@@ -5,6 +5,8 @@ Wave Function Collapse algorithm in Go/GTK.
 
 Use F5 to regenerate the map.
 
+![Screenshot](/assets/screenshot.png)
+
 ## LINKS
 
 * Coding Train - Coding Challenge 171 : https://thecodingtrain.com/challenges/171-wave-function-collapse
