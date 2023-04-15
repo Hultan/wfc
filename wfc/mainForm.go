@@ -2,6 +2,7 @@ package wfc
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/gotk3/gotk3/gdk"
@@ -66,7 +67,7 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 	w = newWFC(da)
 	err = w.setup()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, err.Error())
+		log.Fatal(err)
 		os.Exit(1)
 	}
 

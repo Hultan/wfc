@@ -9,6 +9,7 @@ import (
 )
 
 const (
+	configPath = "/home/per/code/wfc/roads.json"
 	TilesPath  = "/home/per/code/wfc/assets/tiles.png"
 	TileSize   = 64
 	LeftMargin = 0
@@ -41,11 +42,10 @@ func newWFC(da *gtk.DrawingArea) *wfc {
 func (w *wfc) setup() error {
 	w.da.Connect("draw", w.onDraw)
 
-	surface, err := w.loadSurface(TilesPath)
+	err := w.loadTiles(configPath)
 	if err != nil {
 		return err
 	}
-	w.createTiles(surface)
 
 	w.regenerate()
 

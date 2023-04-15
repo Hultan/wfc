@@ -1,0 +1,117 @@
+{
+  "path": "/home/per/code/wfc/assets/tiles.png",
+  "tiles": [
+    {
+      "key": "0000",
+      "top": 252,
+      "left": 250,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "0001",
+      "top": 92,
+      "left": 250,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "0010",
+      "top": 172,
+      "left": 250,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "0011",
+      "top": 12,
+      "left": 250,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "0100",
+      "top": 252,
+      "left": 90,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "0101",
+      "top": 92,
+      "left": 90,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "0110",
+      "top": 172,
+      "left": 90,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "0111",
+      "top": 12,
+      "left": 90,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1000",
+      "top": 252,
+      "left": 170,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1001",
+      "top": 92,
+      "left": 170,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1010",
+      "top": 172,
+      "left": 170,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1011",
+      "top": 12,
+      "left": 170,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1100",
+      "top": 252,
+      "left": 10,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1101",
+      "top": 92,
+      "left": 10,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1110",
+      "top": 172,
+      "left": 10,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "key": "1111",
+      "top": 12,
+      "left": 10,
+      "width": 64,
+      "height": 64
+    }
+  ]
+}
