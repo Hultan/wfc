@@ -3,7 +3,9 @@
 ## Description
 Wave Function Collapse algorithm in Go/GTK. 
 
-Use F5 to regenerate the map.
+Usage:
+* F5 regenerates the map.
+* Q (or q) exits the application.
 
 ![Screenshot](/assets/screenshot.png)
 

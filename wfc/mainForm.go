@@ -84,7 +84,10 @@ func (m *MainForm) setupMenu() {
 func (m *MainForm) onKeyDown(_ *gtk.ApplicationWindow, e *gdk.Event) {
 	ke := gdk.EventKeyNewFromEvent(e)
 
-	if ke.KeyVal() == gdk.KEY_F5 {
+	switch ke.KeyVal() {
+	case gdk.KEY_F5:
 		w.regenerate()
+	case gdk.KEY_q, gdk.KEY_Q:
+		m.Window.Close()
 	}
 }
