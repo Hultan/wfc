@@ -13,8 +13,8 @@ const (
 	TileSize   = 64
 	LeftMargin = 0
 	TopMargin  = 0
-	Height     = 10
-	Width      = 10
+	Height     = 200
+	Width      = 200
 )
 
 type gridCell struct {
@@ -91,41 +91,38 @@ func (w *wfc) pickRandomEmptySquare() (int, int) {
 }
 
 func (w *wfc) generateWorld() {
-	for {
-		x, y := w.pickRandomEmptySquare()
-		if x == -1 && y == -1 {
-			// we are done
-			break
-		}
 
-		connections := "????"
+	for y := 0; y < Height; y++ {
+		for x := 0; x < Width; x++ {
+			connections := "????"
 
-		if y > 0 && grid[y-1][x].isCollapsed {
-			connections = replacePartOfString(connections, string(grid[y-1][x].tileKey[2]), 0)
-		} else if y == 0 {
-			connections = replacePartOfString(connections, "0", 0)
-		}
-		if x < Width-1 && grid[y][x+1].isCollapsed {
-			connections = replacePartOfString(connections, string(grid[y][x+1].tileKey[3]), 1)
-		} else if x == Width-1 {
-			connections = replacePartOfString(connections, "0", 1)
-		}
-		if y < Height-1 && grid[y+1][x].isCollapsed {
-			connections = replacePartOfString(connections, string(grid[y+1][x].tileKey[0]), 2)
-		} else if y == Height-1 {
-			connections = replacePartOfString(connections, "0", 2)
-		}
-		if x > 0 && grid[y][x-1].isCollapsed {
-			connections = replacePartOfString(connections, string(grid[y][x-1].tileKey[1]), 3)
-		} else if x == 0 {
-			connections = replacePartOfString(connections, "0", 3)
-		}
+			if y > 0 && grid[y-1][x].isCollapsed {
+				connections = replacePartOfString(connections, string(grid[y-1][x].tileKey[2]), 0)
+			} else if y == 0 {
+				connections = replacePartOfString(connections, "0", 0)
+			}
+			if x < Width-1 && grid[y][x+1].isCollapsed {
+				connections = replacePartOfString(connections, string(grid[y][x+1].tileKey[3]), 1)
+			} else if x == Width-1 {
+				connections = replacePartOfString(connections, "0", 1)
+			}
+			if y < Height-1 && grid[y+1][x].isCollapsed {
+				connections = replacePartOfString(connections, string(grid[y+1][x].tileKey[0]), 2)
+			} else if y == Height-1 {
+				connections = replacePartOfString(connections, "0", 2)
+			}
+			if x > 0 && grid[y][x-1].isCollapsed {
+				connections = replacePartOfString(connections, string(grid[y][x-1].tileKey[1]), 3)
+			} else if x == 0 {
+				connections = replacePartOfString(connections, "0", 3)
+			}
 
-		// Pick a random matching tile
-		key := w.pickRandomMatchingTile(connections)
+			// Pick a random matching tile
+			key := w.pickRandomMatchingTile(connections)
 
-		grid[y][x].tileKey = key
-		grid[y][x].isCollapsed = true
+			grid[y][x].tileKey = key
+			grid[y][x].isCollapsed = true
+		}
 	}
 }
 
