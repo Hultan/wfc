@@ -46,7 +46,7 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 
 	// Set up main window
 	m.Window.SetApplication(app)
-	title := fmt.Sprintf("%s - %s", applicationTitle, applicationVersion)
+	title := fmt.Sprintf("%s - %s - %s", applicationTitle, applicationVersion, applicationCopyRight)
 	m.Window.SetTitle(title)
 	m.Window.Maximize()
 
@@ -68,7 +68,6 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 	err = w.setup()
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
 
 	// Menu

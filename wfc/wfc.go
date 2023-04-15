@@ -10,7 +10,6 @@ import (
 
 const (
 	configPath = "/home/per/code/wfc/roads.json"
-	TilesPath  = "/home/per/code/wfc/assets/tiles.png"
 	TileSize   = 64
 	LeftMargin = 0
 	TopMargin  = 0
