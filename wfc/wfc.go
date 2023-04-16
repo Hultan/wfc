@@ -58,14 +58,14 @@ func (w *Wfc) loadTiles(path string) error {
 	}
 
 	// Load the tile map
-	surface, err := cairo.NewSurfaceFromPNG(config.Path)
+	surface, err := cairo.NewSurfaceFromPNG(config.TileMap.Path)
 	if err != nil {
 		return err
 	}
 
 	// Add tiles to the map
 	w.tiles = make(map[string]*cairo.Surface)
-	for _, tile := range config.Tiles {
+	for _, tile := range config.TileMap.Tiles {
 		w.tiles[tile.Key] = surface.CreateForRectangle(tile.Left, tile.Top, tile.Width, tile.Height)
 	}
 

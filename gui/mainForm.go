@@ -17,7 +17,7 @@ const applicationVersion = "version 0.01"
 const applicationCopyRight = "©SoftTeam AB, 2022"
 
 type MainForm struct {
-	Window  *gtk.ApplicationWindow
+	window  *gtk.ApplicationWindow
 	builder *framework.GtkBuilder
 	wfc     *wfc.Wfc
 }
@@ -42,21 +42,21 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 	m.builder = builder
 
 	// Get the main window from the glade file
-	m.Window = m.builder.GetObject("main_window").(*gtk.ApplicationWindow)
+	m.window = m.builder.GetObject("main_window").(*gtk.ApplicationWindow)
 
 	// Set up main window
-	m.Window.SetApplication(app)
+	m.window.SetApplication(app)
 	title := fmt.Sprintf("%s - %s - %s", applicationTitle, applicationVersion, applicationCopyRight)
-	m.Window.SetTitle(title)
-	m.Window.Maximize()
+	m.window.SetTitle(title)
+	m.window.Maximize()
 
 	// Hook up events
-	m.Window.Connect("destroy", m.Window.Close)
-	m.Window.Connect("key-press-event", m.onKeyDown)
+	m.window.Connect("destroy", m.window.Close)
+	m.window.Connect("key-press-event", m.onKeyDown)
 
 	// Quit button
 	button := m.builder.GetObject("main_window_quit_button").(*gtk.ToolButton)
-	button.Connect("clicked", m.Window.Close)
+	button.Connect("clicked", m.window.Close)
 
 	// Status bar
 	statusBar := m.builder.GetObject("main_window_status_bar").(*gtk.Statusbar)
@@ -73,12 +73,12 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 	m.setupMenu()
 
 	// Show the main window
-	m.Window.ShowAll()
+	m.window.ShowAll()
 }
 
 func (m *MainForm) setupMenu() {
 	menuQuit := m.builder.GetObject("menu_file_quit").(*gtk.MenuItem)
-	menuQuit.Connect("activate", m.Window.Close)
+	menuQuit.Connect("activate", m.window.Close)
 }
 func (m *MainForm) onKeyDown(_ *gtk.ApplicationWindow, e *gdk.Event) {
 	ke := gdk.EventKeyNewFromEvent(e)
@@ -87,6 +87,6 @@ func (m *MainForm) onKeyDown(_ *gtk.ApplicationWindow, e *gdk.Event) {
 	case gdk.KEY_F5:
 		m.wfc.Generate()
 	case gdk.KEY_q, gdk.KEY_Q:
-		m.Window.Close()
+		m.window.Close()
 	}
 }

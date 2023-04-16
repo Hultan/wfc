@@ -6,14 +6,20 @@ import (
 )
 
 type Config struct {
-	Path  string `json:"path"`
-	Tiles []struct {
-		Key    string  `json:"key"`
-		Top    float64 `json:"top"`
-		Left   float64 `json:"left"`
-		Width  float64 `json:"width"`
-		Height float64 `json:"height"`
-	} `json:"tiles"`
+	TileMap struct {
+		Path  string `json:"path"`
+		Tiles []struct {
+			Key    string  `json:"key"`
+			Top    float64 `json:"top"`
+			Left   float64 `json:"left"`
+			Width  float64 `json:"width"`
+			Height float64 `json:"height"`
+		} `json:"tiles,omitempty"`
+	} `json:"tileMap,omitempty"`
+	Tile []struct {
+		Path string `json:"path"`
+		Key  string `json:"key"`
+	} `json:"tile,omitempty"`
 }
 
 // LoadConfig : Loads the configuration file
