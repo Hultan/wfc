@@ -19,6 +19,7 @@ const applicationCopyRight = "©SoftTeam AB, 2022"
 type MainForm struct {
 	Window  *gtk.ApplicationWindow
 	builder *framework.GtkBuilder
+	wfc     *wfc.Wfc
 }
 
 // NewMainForm : Creates a new MainForm object
@@ -26,8 +27,6 @@ func NewMainForm() *MainForm {
 	mainForm := new(MainForm)
 	return mainForm
 }
-
-var w *wfc.Wfc
 
 // OpenMainForm : Opens the MainForm window
 func (m *MainForm) OpenMainForm(app *gtk.Application) {
@@ -65,7 +64,7 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 
 	// Drawing area
 	da := m.builder.GetObject("drawing_area").(*gtk.DrawingArea)
-	w, err = wfc.NewWFC(da)
+	m.wfc, err = wfc.NewWFC(da)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +85,7 @@ func (m *MainForm) onKeyDown(_ *gtk.ApplicationWindow, e *gdk.Event) {
 
 	switch ke.KeyVal() {
 	case gdk.KEY_F5:
-		w.Generate()
+		m.wfc.Generate()
 	case gdk.KEY_q, gdk.KEY_Q:
 		m.Window.Close()
 	}
