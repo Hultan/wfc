@@ -11,8 +11,8 @@ import (
 const (
 	configPath = "/home/per/code/wfc/roads.json"
 	TileSize   = 64
-	LeftMargin = 0
-	TopMargin  = 0
+	LeftMargin = 10
+	TopMargin  = 10
 	Height     = 200
 	Width      = 200
 )
@@ -23,18 +23,17 @@ type gridCell struct {
 }
 
 type wfc struct {
-	da *gtk.DrawingArea
+	da     *gtk.DrawingArea
+	random *rand.Rand
+	grid   [Height][Width]gridCell
+	tiles  map[string]*cairo.Surface
 }
 
-var (
-	grid   [Height][Width]gridCell
-	random *rand.Rand
-	tiles  map[string]*cairo.Surface
-)
-
 func newWFC(da *gtk.DrawingArea) *wfc {
-	random = rand.New(rand.NewSource(time.Now().UnixNano()))
-	return &wfc{da}
+	return &wfc{
+		da:     da,
+		random: rand.New(rand.NewSource(time.Now().UnixNano())),
+	}
 }
 
 func (w *wfc) setup() error {
@@ -61,9 +60,9 @@ func (w *wfc) loadTiles(path string) error {
 		return err
 	}
 
-	tiles = make(map[string]*cairo.Surface)
+	w.tiles = make(map[string]*cairo.Surface)
 	for _, tile := range config.Tiles {
-		tiles[tile.Key] = surface.CreateForRectangle(tile.Left, tile.Top, tile.Width, tile.Height)
+		w.tiles[tile.Key] = surface.CreateForRectangle(tile.Left, tile.Top, tile.Width, tile.Height)
 	}
 
 	return nil
@@ -77,8 +76,7 @@ func (w *wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 	for y := 0; y < Height; y++ {
 		for x := 0; x < Width; x++ {
 			xx, yy := float64(x)*TileSize+LeftMargin, float64(y)*TileSize+TopMargin
-			cell := grid[y][x]
-			w.drawTile(ctx, tiles[cell.tileKey], xx, yy)
+			w.drawTile(ctx, w.tiles[w.grid[y][x].tileKey], xx, yy)
 		}
 	}
 }
@@ -94,38 +92,38 @@ func (w *wfc) generateWorld() {
 		for x := 0; x < Width; x++ {
 			connections := "????"
 
-			if y > 0 && grid[y-1][x].isCollapsed {
-				connections = replacePartOfString(connections, string(grid[y-1][x].tileKey[2]), 0)
+			if y > 0 && w.grid[y-1][x].isCollapsed {
+				connections = replaceCharInString(connections, string(w.grid[y-1][x].tileKey[2]), 0)
 			} else if y == 0 {
-				connections = replacePartOfString(connections, "0", 0)
+				connections = replaceCharInString(connections, "0", 0)
 			}
-			if x < Width-1 && grid[y][x+1].isCollapsed {
-				connections = replacePartOfString(connections, string(grid[y][x+1].tileKey[3]), 1)
+			if x < Width-1 && w.grid[y][x+1].isCollapsed {
+				connections = replaceCharInString(connections, string(w.grid[y][x+1].tileKey[3]), 1)
 			} else if x == Width-1 {
-				connections = replacePartOfString(connections, "0", 1)
+				connections = replaceCharInString(connections, "0", 1)
 			}
-			if y < Height-1 && grid[y+1][x].isCollapsed {
-				connections = replacePartOfString(connections, string(grid[y+1][x].tileKey[0]), 2)
+			if y < Height-1 && w.grid[y+1][x].isCollapsed {
+				connections = replaceCharInString(connections, string(w.grid[y+1][x].tileKey[0]), 2)
 			} else if y == Height-1 {
-				connections = replacePartOfString(connections, "0", 2)
+				connections = replaceCharInString(connections, "0", 2)
 			}
-			if x > 0 && grid[y][x-1].isCollapsed {
-				connections = replacePartOfString(connections, string(grid[y][x-1].tileKey[1]), 3)
+			if x > 0 && w.grid[y][x-1].isCollapsed {
+				connections = replaceCharInString(connections, string(w.grid[y][x-1].tileKey[1]), 3)
 			} else if x == 0 {
-				connections = replacePartOfString(connections, "0", 3)
+				connections = replaceCharInString(connections, "0", 3)
 			}
 
 			// Pick a random matching tile
 			key := w.pickRandomMatchingTile(connections)
 
-			grid[y][x].tileKey = key
-			grid[y][x].isCollapsed = true
+			w.grid[y][x].tileKey = key
+			w.grid[y][x].isCollapsed = true
 		}
 	}
 }
 
 func (w *wfc) pickRandomMatchingTile(connections string) string {
-	keys := getKeys(tiles)
+	keys := getKeys(w.tiles)
 
 	// Remove non-matching tiles
 	for i := len(keys) - 1; i >= 0; i-- {
@@ -135,19 +133,10 @@ func (w *wfc) pickRandomMatchingTile(connections string) string {
 		}
 	}
 
-	if len(keys) == 0 {
-		panic("No valid tiles")
-	}
-
-	t := random.Intn(len(keys))
-	return keys[t]
+	return keys[w.random.Intn(len(keys))]
 }
 
 func (w *wfc) isKeyValid(connections string, key string) bool {
-	if len(connections) != len(key) {
-		panic("len(connections) != len(key)")
-	}
-
 	for i := 0; i < len(connections); i++ {
 		if (connections[i] == '0' || connections[i] == '1') && connections[i] != key[i] {
 			return false
@@ -159,7 +148,7 @@ func (w *wfc) isKeyValid(connections string, key string) bool {
 
 func (w *wfc) regenerate() {
 	// Clear the grid
-	grid = [Height][Width]gridCell{}
+	w.grid = [Height][Width]gridCell{}
 
 	w.generateWorld()
 	w.da.QueueDraw()

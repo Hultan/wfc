@@ -1,10 +1,10 @@
 package wfc
 
-func replacePartOfString(s, new string, i int) string {
-	if i < 0 || i > len(s) {
-		return s
+func replaceCharInString(original, replace string, i int) string {
+	if i < 0 || i > len(original) {
+		return original
 	}
-	return s[0:i] + new + s[i+1:]
+	return original[0:i] + replace + original[i+1:]
 }
 
 func getKeys[K comparable, V any](m map[K]V) []K {

@@ -28,8 +28,8 @@ func Test_replacePartOfString(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(
 			tt.name, func(t *testing.T) {
-				if got := replacePartOfString(tt.args.s, tt.args.new, tt.args.i); got != tt.want {
-					t.Errorf("replacePartOfString() = %v, want %v", got, tt.want)
+				if got := replaceCharInString(tt.args.s, tt.args.new, tt.args.i); got != tt.want {
+					t.Errorf("replaceCharInString() = %v, want %v", got, tt.want)
 				}
 			},
 		)
