@@ -64,8 +64,7 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 
 	// Drawing area
 	da := m.builder.GetObject("drawing_area").(*gtk.DrawingArea)
-	w = newWFC(da)
-	err = w.setup()
+	w, err = newWFC(da)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +85,7 @@ func (m *MainForm) onKeyDown(_ *gtk.ApplicationWindow, e *gdk.Event) {
 
 	switch ke.KeyVal() {
 	case gdk.KEY_F5:
-		w.regenerate()
+		w.generate()
 	case gdk.KEY_q, gdk.KEY_Q:
 		m.Window.Close()
 	}
