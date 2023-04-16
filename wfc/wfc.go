@@ -22,15 +22,15 @@ type gridCell struct {
 	isCollapsed bool
 }
 
-type wfc struct {
+type Wfc struct {
 	da     *gtk.DrawingArea
 	random *rand.Rand
 	grid   [Height][Width]gridCell
 	tiles  map[string]*cairo.Surface
 }
 
-func newWFC(da *gtk.DrawingArea) (*wfc, error) {
-	w := &wfc{
+func NewWFC(da *gtk.DrawingArea) (*Wfc, error) {
+	w := &Wfc{
 		da:     da,
 		random: rand.New(rand.NewSource(time.Now().UnixNano())),
 	}
@@ -45,12 +45,12 @@ func newWFC(da *gtk.DrawingArea) (*wfc, error) {
 	}
 
 	// Generate the "world"
-	w.generate()
+	w.Generate()
 
 	return w, nil
 }
 
-func (w *wfc) loadTiles(path string) error {
+func (w *Wfc) loadTiles(path string) error {
 	// Load the config file
 	config, err := LoadConfig(path)
 	if err != nil {
@@ -72,7 +72,7 @@ func (w *wfc) loadTiles(path string) error {
 	return nil
 }
 
-func (w *wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
+func (w *Wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 	// Draw the gray background
 	ctx.SetSourceRGBA(0.8, 0.8, 0.8, 0.5)
 	ctx.Rectangle(0, 0, float64(da.GetAllocatedWidth()), float64(da.GetAllocatedHeight()))
@@ -88,7 +88,7 @@ func (w *wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 	}
 }
 
-func (w *wfc) generateWorld() {
+func (w *Wfc) generateWorld() {
 
 	for y := 0; y < Height; y++ {
 		for x := 0; x < Width; x++ {
@@ -125,7 +125,7 @@ func (w *wfc) generateWorld() {
 	}
 }
 
-func (w *wfc) pickRandomMatchingTile(pattern string) string {
+func (w *Wfc) pickRandomMatchingTile(pattern string) string {
 	keys := getKeys(w.tiles)
 
 	// Remove non-matching tiles
@@ -139,7 +139,7 @@ func (w *wfc) pickRandomMatchingTile(pattern string) string {
 	return keys[w.random.Intn(len(keys))]
 }
 
-func (w *wfc) isKeyValid(pattern string, key string) bool {
+func (w *Wfc) isKeyValid(pattern string, key string) bool {
 	// Does the key match the pattern?
 	for i := 0; i < len(pattern); i++ {
 		if (pattern[i] == '0' || pattern[i] == '1') && pattern[i] != key[i] {
@@ -150,7 +150,7 @@ func (w *wfc) isKeyValid(pattern string, key string) bool {
 	return true
 }
 
-func (w *wfc) generate() {
+func (w *Wfc) Generate() {
 	// Clear the grid
 	w.grid = [Height][Width]gridCell{}
 

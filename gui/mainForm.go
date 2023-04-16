@@ -1,4 +1,4 @@
-package wfc
+package gui
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 
 	"github.com/hultan/softteam/framework"
+	"github.com/hultan/wfc/wfc"
 )
 
 const applicationTitle = "wave function collapse"
@@ -26,7 +27,7 @@ func NewMainForm() *MainForm {
 	return mainForm
 }
 
-var w *wfc
+var w *wfc.Wfc
 
 // OpenMainForm : Opens the MainForm window
 func (m *MainForm) OpenMainForm(app *gtk.Application) {
@@ -64,7 +65,7 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 
 	// Drawing area
 	da := m.builder.GetObject("drawing_area").(*gtk.DrawingArea)
-	w, err = newWFC(da)
+	w, err = wfc.NewWFC(da)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -85,7 +86,7 @@ func (m *MainForm) onKeyDown(_ *gtk.ApplicationWindow, e *gdk.Event) {
 
 	switch ke.KeyVal() {
 	case gdk.KEY_F5:
-		w.generate()
+		w.Generate()
 	case gdk.KEY_q, gdk.KEY_Q:
 		m.Window.Close()
 	}

@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/hultan/wfc/wfc"
+	"github.com/hultan/wfc/gui"
 
 	"github.com/gotk3/gotk3/glib"
 	"github.com/gotk3/gotk3/gtk"
@@ -21,7 +21,7 @@ func main() {
 		panic("Failed to create GTK Application : " + err.Error())
 	}
 
-	mainForm := wfc.NewMainForm()
+	mainForm := gui.NewMainForm()
 	// Hook up the activate event handler
 	application.Connect("activate", mainForm.OpenMainForm)
 	if err != nil {
