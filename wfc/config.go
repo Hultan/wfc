@@ -2,11 +2,16 @@ package wfc
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 )
 
 type Config struct {
-	TileMap struct {
+	MapWidth   int     `json:"mapWidth"`
+	MapHeight  int     `json:"mapHeight"`
+	TileWidth  float64 `json:"tileWidth"`
+	TileHeight float64 `json:"tileHeight"`
+	TileMap    struct {
 		Path  string `json:"path"`
 		Tiles []struct {
 			Key    string  `json:"key"`
@@ -21,6 +26,8 @@ type Config struct {
 		Key  string `json:"key"`
 	} `json:"tile,omitempty"`
 }
+
+var errorInvalidTileSize = errors.New("invalid tile size")
 
 // LoadConfig : Loads the configuration file
 func LoadConfig(path string) (*Config, error) {
@@ -42,4 +49,22 @@ func LoadConfig(path string) (*Config, error) {
 	}
 
 	return &config, nil
+}
+
+func (c *Config) Validate() error {
+	width := c.TileMap.Tiles[0].Width
+	height := c.TileMap.Tiles[0].Height
+
+	for _, tile := range c.TileMap.Tiles {
+		if tile.Width != width || tile.Height != height {
+			return errorInvalidTileSize
+		}
+	}
+	// for _, tile := range c.Tile {
+	// 	if tile.Width != width || tile.Height != height {
+	// 		return errorInvalidTileSize
+	// 	}
+	// }
+
+	return nil
 }

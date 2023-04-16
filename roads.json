@@ -1,4 +1,8 @@
 {
+  "mapWidth": 20,
+  "mapHeight": 20,
+  "tileWidth": 64.0,
+  "tileHeight": 64.0,
   "tileMap": {
     "path": "/home/per/code/wfc/assets/tiles.png",
     "tiles": [

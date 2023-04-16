@@ -9,12 +9,8 @@ import (
 )
 
 const (
-	configPath = "/home/per/code/wfc/roads.json"
-	TileSize   = 64
-	LeftMargin = 10
-	TopMargin  = 10
-	Height     = 200
-	Width      = 200
+	mapHeight = 10
+	mapWidth  = 10
 )
 
 type gridCell struct {
@@ -23,13 +19,14 @@ type gridCell struct {
 }
 
 type Wfc struct {
-	da     *gtk.DrawingArea
-	random *rand.Rand
-	grid   [Height][Width]gridCell
-	tiles  map[string]*cairo.Surface
+	da                    *gtk.DrawingArea
+	random                *rand.Rand
+	grid                  [mapHeight][mapWidth]gridCell
+	tiles                 map[string]*cairo.Surface
+	tileHeight, tileWidth float64
 }
 
-func NewWFC(da *gtk.DrawingArea) (*Wfc, error) {
+func NewWFC(da *gtk.DrawingArea, configPath string) (*Wfc, error) {
 	w := &Wfc{
 		da:     da,
 		random: rand.New(rand.NewSource(time.Now().UnixNano())),
@@ -50,12 +47,34 @@ func NewWFC(da *gtk.DrawingArea) (*Wfc, error) {
 	return w, nil
 }
 
+// Generate generates a new "world"
+func (w *Wfc) Generate() {
+	// Clear the grid
+	w.grid = [mapHeight][mapWidth]gridCell{}
+
+	// Generate a new "world" and draw it
+	w.generateWorld()
+	w.da.QueueDraw()
+}
+
+//
+// Private functions
+//
+
 func (w *Wfc) loadTiles(path string) error {
 	// Load the config file
 	config, err := LoadConfig(path)
 	if err != nil {
 		return err
 	}
+
+	err = config.Validate()
+	if err != nil {
+		return err
+	}
+
+	w.tileWidth = config.TileWidth
+	w.tileHeight = config.TileHeight
 
 	// Load the tile map
 	surface, err := cairo.NewSurfaceFromPNG(config.TileMap.Path)
@@ -79,9 +98,9 @@ func (w *Wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 	ctx.Fill()
 
 	// Draw the "world"
-	for y := 0; y < Height; y++ {
-		for x := 0; x < Width; x++ {
-			xx, yy := float64(x)*TileSize+LeftMargin, float64(y)*TileSize+TopMargin
+	for y := 0; y < mapHeight; y++ {
+		for x := 0; x < mapWidth; x++ {
+			xx, yy := float64(x)*w.tileWidth, float64(y)*w.tileHeight
 			ctx.SetSourceSurface(w.tiles[w.grid[y][x].tileKey], xx, yy)
 			ctx.Paint()
 		}
@@ -90,8 +109,8 @@ func (w *Wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 
 func (w *Wfc) generateWorld() {
 
-	for y := 0; y < Height; y++ {
-		for x := 0; x < Width; x++ {
+	for y := 0; y < mapHeight; y++ {
+		for x := 0; x < mapWidth; x++ {
 			pattern := "????"
 
 			// Up
@@ -101,13 +120,13 @@ func (w *Wfc) generateWorld() {
 				pattern = replaceCharInString(pattern, string(w.grid[y-1][x].tileKey[2]), 0)
 			}
 			// Right
-			if x == Width-1 {
+			if x == mapWidth-1 {
 				pattern = replaceCharInString(pattern, "0", 1)
 			} else if w.grid[y][x+1].isCollapsed {
 				pattern = replaceCharInString(pattern, string(w.grid[y][x+1].tileKey[3]), 1)
 			}
 			// Down
-			if y == Height-1 {
+			if y == mapHeight-1 {
 				pattern = replaceCharInString(pattern, "0", 2)
 			} else if w.grid[y+1][x].isCollapsed {
 				pattern = replaceCharInString(pattern, string(w.grid[y+1][x].tileKey[0]), 2)
@@ -148,13 +167,4 @@ func (w *Wfc) isKeyValid(pattern string, key string) bool {
 	}
 
 	return true
-}
-
-func (w *Wfc) Generate() {
-	// Clear the grid
-	w.grid = [Height][Width]gridCell{}
-
-	// Generate a new "world" and draw it
-	w.generateWorld()
-	w.da.QueueDraw()
 }

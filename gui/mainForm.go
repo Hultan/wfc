@@ -64,7 +64,7 @@ func (m *MainForm) OpenMainForm(app *gtk.Application) {
 
 	// Drawing area
 	da := m.builder.GetObject("drawing_area").(*gtk.DrawingArea)
-	m.wfc, err = wfc.NewWFC(da)
+	m.wfc, err = wfc.NewWFC(da, "/home/per/code/wfc/roads.json")
 	if err != nil {
 		log.Fatal(err)
 	}
