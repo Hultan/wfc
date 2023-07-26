@@ -14,11 +14,12 @@ type Config struct {
 	TileMap    struct {
 		Path  string `json:"path"`
 		Tiles []struct {
-			Key    string  `json:"key"`
-			Top    float64 `json:"top"`
-			Left   float64 `json:"left"`
-			Width  float64 `json:"width"`
-			Height float64 `json:"height"`
+			Key      string  `json:"key"`
+			Top      float64 `json:"top"`
+			Left     float64 `json:"left"`
+			Width    float64 `json:"width"`
+			Height   float64 `json:"height"`
+			Priority int     `json:"priority"`
 		} `json:"tiles,omitempty"`
 	} `json:"tileMap,omitempty"`
 	Tile []struct {

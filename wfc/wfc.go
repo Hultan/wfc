@@ -10,6 +10,11 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 )
 
+type Surface struct {
+	priority int
+	surface  *cairo.Surface
+}
+
 type gridCell struct {
 	tileKey     string
 	isCollapsed bool
@@ -19,7 +24,7 @@ type Wfc struct {
 	da                    *gtk.DrawingArea
 	random                *rand.Rand
 	grid                  [][]gridCell
-	tiles                 map[string]*cairo.Surface
+	tiles                 map[string]Surface
 	mapHeight, mapWidth   int
 	tileHeight, tileWidth float64
 }
@@ -85,13 +90,16 @@ func (w *Wfc) loadTiles(path string) error {
 	}
 
 	// Add tiles to the map
-	w.tiles = make(map[string]*cairo.Surface)
+	w.tiles = make(map[string]Surface)
 	keySize = len(config.TileMap.Tiles[0].Key)
 	for _, tile := range config.TileMap.Tiles {
 		if len(tile.Key) != keySize {
 			panic(fmt.Sprintf("Invalid key size : %s\n", tile.Key))
 		}
-		w.tiles[tile.Key] = surface.CreateForRectangle(tile.Left, tile.Top, tile.Width, tile.Height)
+		w.tiles[tile.Key] = Surface{
+			priority: tile.Priority,
+			surface:  surface.CreateForRectangle(tile.Left, tile.Top, tile.Width, tile.Height),
+		}
 	}
 
 	return nil
@@ -107,7 +115,7 @@ func (w *Wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 	for y := 0; y < w.mapHeight; y++ {
 		for x := 0; x < w.mapWidth; x++ {
 			xx, yy := float64(x)*w.tileWidth, float64(y)*w.tileHeight
-			ctx.SetSourceSurface(w.tiles[w.grid[y][x].tileKey], xx, yy)
+			ctx.SetSourceSurface(w.tiles[w.grid[y][x].tileKey].surface, xx, yy)
 			ctx.Paint()
 			//
 			//ctx.SetSourceRGBA(200, 200, 200, 255)
@@ -166,7 +174,6 @@ func (w *Wfc) generateWorld() {
 
 func (w *Wfc) pickRandomMatchingTile(pattern string) string {
 	keys := getKeys(w.tiles)
-
 	// Remove non-matching tiles
 	for i := len(keys) - 1; i >= 0; i-- {
 		if !w.isKeyValid(pattern, keys[i]) {
@@ -175,12 +182,20 @@ func (w *Wfc) pickRandomMatchingTile(pattern string) string {
 		}
 	}
 
-	if len(keys) == 0 {
+	var keyList []string
+	for _, key := range keys {
+		tile := w.tiles[key]
+		for p := 0; p < tile.priority+1; p++ {
+			keyList = append(keyList, key)
+		}
+	}
+
+	if len(keyList) == 0 {
 		fmt.Printf("No valid keys for pattern %s\n", pattern)
 		return "INVALID KEY!"
 	}
 
-	r := keys[w.random.Intn(len(keys))]
+	r := keyList[w.random.Intn(len(keyList))]
 	fmt.Printf("Picked square: %s\n", r)
 	return r
 }
