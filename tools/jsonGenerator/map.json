@@ -1,0 +1,515 @@
+{
+  "mapWidth": 20,
+  "mapHeight": 20,
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "tileMap": {
+    "path": "/home/per/code/wfc/assets/world.png",
+    "tiles": [
+      {
+        "key": "00011000",
+        "top": 0,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00011110",
+        "top": 16,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00000110",
+        "top": 32,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11100111",
+        "top": 48,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111001",
+        "top": 64,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22211222",
+        "top": 80,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22211112",
+        "top": 96,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22222112",
+        "top": 112,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11122111",
+        "top": 128,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111221",
+        "top": 144,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111111",
+        "top": 160,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111111",
+        "top": 176,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33300333",
+        "top": 192,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33333003",
+        "top": 208,
+        "left": 0,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "01111000",
+        "top": 0,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111111",
+        "top": 16,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "10000111",
+        "top": 32,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "10011111",
+        "top": 48,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "01111110",
+        "top": 64,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "21111222",
+        "top": 80,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111111",
+        "top": 96,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "12222111",
+        "top": 112,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "12211111",
+        "top": 128,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "21111112",
+        "top": 144,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111111",
+        "top": 160,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111111",
+        "top": 176,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "30033333",
+        "top": 192,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "03333330",
+        "top": 208,
+        "left": 16,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "01100000",
+        "top": 0,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11100001",
+        "top": 16,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "10000001",
+        "top": 32,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00000000",
+        "top": 48,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22222222",
+        "top": 64,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "21122222",
+        "top": 80,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11122221",
+        "top": 96,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "12222221",
+        "top": 112,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11133111",
+        "top": 128,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111331",
+        "top": 144,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00022000",
+        "top": 160,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00022220",
+        "top": 176,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00000220",
+        "top": 192,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00033000",
+        "top": 208,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00033330",
+        "top": 224,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "00000330",
+        "top": 240,
+        "left": 32,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33333333",
+        "top": 64,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33311333",
+        "top": 80,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33311113",
+        "top": 96,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33333113",
+        "top": 112,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "13311111",
+        "top": 128,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "31111113",
+        "top": 144,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "02222000",
+        "top": 160,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22222222",
+        "top": 176,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "20000222",
+        "top": 192,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "03333000",
+        "top": 208,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33333333",
+        "top": 224,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "30000333",
+        "top": 240,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "31111333",
+        "top": 80,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11111111",
+        "top": 96,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "13333111",
+        "top": 112,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22200222",
+        "top": 128,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22222002",
+        "top": 144,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "02200000",
+        "top": 160,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "22200002",
+        "top": 176,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "20000002",
+        "top": 192,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "03300000",
+        "top": 208,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "33300003",
+        "top": 224,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "30000003",
+        "top": 240,
+        "left": 64,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "31133333",
+        "top": 80,
+        "left": 80,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "11133331",
+        "top": 96,
+        "left": 80,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "13333331",
+        "top": 112,
+        "left": 80,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "20022222",
+        "top": 128,
+        "left": 80,
+        "width": 16,
+        "height": 16
+      },
+      {
+        "key": "02222220",
+        "top": 144,
+        "left": 80,
+        "width": 16,
+        "height": 16
+      }
+    ]
+  }
+}

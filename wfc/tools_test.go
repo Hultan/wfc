@@ -20,10 +20,10 @@ func Test_replacePartOfString(t *testing.T) {
 		{"Err 2", args{"    ", "X", 5}, "    "},
 
 		// No error
-		{"X   ", args{"    ", "X", 0}, "X   "},
-		{" X  ", args{"    ", "X", 1}, " X  "},
-		{"  X ", args{"    ", "X", 2}, "  X "},
-		{"   X", args{"    ", "X", 3}, "   X"},
+		{"XX      ", args{"        ", "XX", 0}, "XX      "},
+		{"  XX    ", args{"        ", "XX", 1}, "  XX    "},
+		{"    XX  ", args{"        ", "XX", 2}, "    XX  "},
+		{"      XX", args{"        ", "XX", 3}, "      XX"},
 	}
 	for _, tt := range tests {
 		t.Run(

@@ -1,7 +1,9 @@
 package wfc
 
 import (
+	"fmt"
 	"math/rand"
+	"strings"
 	"time"
 
 	"github.com/gotk3/gotk3/cairo"
@@ -21,6 +23,8 @@ type Wfc struct {
 	mapHeight, mapWidth   int
 	tileHeight, tileWidth float64
 }
+
+var keySize int
 
 func NewWFC(da *gtk.DrawingArea, configPath string) (*Wfc, error) {
 	w := &Wfc{
@@ -82,7 +86,11 @@ func (w *Wfc) loadTiles(path string) error {
 
 	// Add tiles to the map
 	w.tiles = make(map[string]*cairo.Surface)
+	keySize = len(config.TileMap.Tiles[0].Key)
 	for _, tile := range config.TileMap.Tiles {
+		if len(tile.Key) != keySize {
+			panic(fmt.Sprintf("Invalid key size : %s\n", tile.Key))
+		}
 		w.tiles[tile.Key] = surface.CreateForRectangle(tile.Left, tile.Top, tile.Width, tile.Height)
 	}
 
@@ -101,44 +109,58 @@ func (w *Wfc) onDraw(da *gtk.DrawingArea, ctx *cairo.Context) {
 			xx, yy := float64(x)*w.tileWidth, float64(y)*w.tileHeight
 			ctx.SetSourceSurface(w.tiles[w.grid[y][x].tileKey], xx, yy)
 			ctx.Paint()
+			//
+			//ctx.SetSourceRGBA(200, 200, 200, 255)
+			//ctx.Rectangle(xx, yy, w.tileWidth, w.tileHeight)
+			//ctx.Stroke()
 		}
 	}
 }
 
 func (w *Wfc) generateWorld() {
+	replace := strings.Repeat("0", keySize/4)
 
 	for y := 0; y < w.mapHeight; y++ {
 		for x := 0; x < w.mapWidth; x++ {
-			pattern := "????"
+			pattern := strings.Repeat("?", keySize)
 
 			// Up
 			if y == 0 {
-				pattern = replaceCharInString(pattern, "0", 0)
+				pattern = replaceCharInString(pattern, replace, 0)
 			} else if w.grid[y-1][x].isCollapsed {
-				pattern = replaceCharInString(pattern, string(w.grid[y-1][x].tileKey[2]), 0)
+				tile := w.grid[y-1][x]
+				pattern = replaceCharInString(pattern, getKeyPart(tile.tileKey, 2), 0)
 			}
 			// Right
 			if x == w.mapWidth-1 {
-				pattern = replaceCharInString(pattern, "0", 1)
+				pattern = replaceCharInString(pattern, replace, 1)
 			} else if w.grid[y][x+1].isCollapsed {
-				pattern = replaceCharInString(pattern, string(w.grid[y][x+1].tileKey[3]), 1)
+				tile := w.grid[y][x+1]
+				pattern = replaceCharInString(pattern, getKeyPart(tile.tileKey, 3), 1)
 			}
 			// Down
 			if y == w.mapHeight-1 {
-				pattern = replaceCharInString(pattern, "0", 2)
+				pattern = replaceCharInString(pattern, replace, 2)
 			} else if w.grid[y+1][x].isCollapsed {
-				pattern = replaceCharInString(pattern, string(w.grid[y+1][x].tileKey[0]), 2)
+				tile := w.grid[y+1][x]
+				pattern = replaceCharInString(pattern, getKeyPart(tile.tileKey, 0), 2)
 			}
 			// Left
 			if x == 0 {
-				pattern = replaceCharInString(pattern, "0", 3)
+				pattern = replaceCharInString(pattern, replace, 3)
 			} else if w.grid[y][x-1].isCollapsed {
-				pattern = replaceCharInString(pattern, string(w.grid[y][x-1].tileKey[1]), 3)
+				tile := w.grid[y][x-1]
+				pattern = replaceCharInString(pattern, getKeyPart(tile.tileKey, 1), 3)
 			}
 
-			w.grid[y][x].tileKey = w.pickRandomMatchingTile(pattern)
+			key := w.pickRandomMatchingTile(pattern)
+			if key == "INVALID KEY!" {
+				return
+			}
+			w.grid[y][x].tileKey = key
 			w.grid[y][x].isCollapsed = true
 		}
+		fmt.Println("-------------------------")
 	}
 }
 
@@ -153,7 +175,14 @@ func (w *Wfc) pickRandomMatchingTile(pattern string) string {
 		}
 	}
 
-	return keys[w.random.Intn(len(keys))]
+	if len(keys) == 0 {
+		fmt.Printf("No valid keys for pattern %s\n", pattern)
+		return "INVALID KEY!"
+	}
+
+	r := keys[w.random.Intn(len(keys))]
+	fmt.Printf("Picked square: %s\n", r)
+	return r
 }
 
 func (w *Wfc) isKeyValid(pattern string, key string) bool {
