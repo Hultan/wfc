@@ -7,6 +7,13 @@
     "path": "/home/per/code/wfc/assets/world.png",
     "tiles": [
       {
+        "key": "00000000",
+        "top": 32,
+        "left": 48,
+        "width": 16,
+        "height": 16
+      },
+      {
         "key": "00011000",
         "top": 0,
         "left": 0,
@@ -66,13 +73,6 @@
         "key": "10000001",
         "top": 32,
         "left": 32,
-        "width": 16,
-        "height": 16
-      },
-      {
-        "key": "00000000",
-        "top": 32,
-        "left": 48,
         "width": 16,
         "height": 16
       },
