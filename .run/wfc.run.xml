@@ -2,7 +2,7 @@
   <configuration default="false" name="wfc" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="wfc" />
     <working_directory value="$PROJECT_DIR$" />
-    <parameters value="&quot;$PROJECT_DIR$/world.json&quot;" />
+    <parameters value="&quot;$PROJECT_DIR$/roads.json&quot;" />
     <kind value="FILE" />
     <package value="wfc" />
     <directory value="$PROJECT_DIR$" />

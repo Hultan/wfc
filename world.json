@@ -1,6 +1,6 @@
 {
-  "mapWidth": 20,
-  "mapHeight": 20,
+  "mapWidth": 80,
+  "mapHeight": 50,
   "tileWidth": 16,
   "tileHeight": 16,
   "tileMap": {
